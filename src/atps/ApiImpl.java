@@ -78,5 +78,4 @@ public class ApiImpl extends UnicastRemoteObject implements Api {
         }
         return true;
     }
-    
 }

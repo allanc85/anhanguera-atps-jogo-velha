@@ -24,6 +24,7 @@ public class Server {
         //System.setProperty("java.security.policy", "security.policy");
         startRegistry();
         registerObject(Api.class.getSimpleName(), new ApiImpl());
+        // Mensagem confirmando inicialização do servidor
         System.out.println("Servidor iniciado com sucesos. Aguardando conexão.");
     }
 }

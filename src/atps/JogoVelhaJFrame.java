@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package atps;
 
 import java.rmi.RemoteException;
@@ -11,10 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-/**
- *
- * @author allancristian
- */
 public class JogoVelhaJFrame extends javax.swing.JFrame {
 
     private final char marc_x = 'X';

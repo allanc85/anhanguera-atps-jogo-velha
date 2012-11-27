@@ -2,6 +2,7 @@ package atps;
 
 import java.io.*;
 
+// Dados para controle do Jogo
 public class Data implements Serializable {
     private static final long serialVersionUID = 1L;
     private int idJogo;

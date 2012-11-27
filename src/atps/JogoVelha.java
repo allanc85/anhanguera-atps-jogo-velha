@@ -1,16 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package atps;
 
 import java.io.Serializable;
-import javax.swing.JOptionPane;
 
-/**
- *
- * @author allancristian
- */
 public class JogoVelha implements Serializable {
     private static final long serialVersionUID = 1L;
     private int idJogadorUm, idJogadorDois; // Jogador 1 = X e Jogador 2 = O
