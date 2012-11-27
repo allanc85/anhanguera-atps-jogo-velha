@@ -229,7 +229,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
     
     private void conectarServidor() throws Exception{
         // Conecta usando RMI
-        System.setProperty("java.security.policy", "security.policy");
+        //System.setProperty("java.security.policy", "security.policy");
         this.registry = LocateRegistry.getRegistry(HOST, PORT);
         this.remoteApi = (Api) registry.lookup(Api.class.getSimpleName());
     }
