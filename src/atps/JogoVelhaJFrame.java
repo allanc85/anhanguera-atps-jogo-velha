@@ -18,6 +18,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
     private Api remoteApi;
     private char marcador;
 
+    // Construtor
     public JogoVelhaJFrame() {
         initComponents();
         enableComponents(false);
@@ -198,6 +199,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Habilita / desabilita componentes na tela
     private void enableComponents(boolean input){
         jButton11.setEnabled(input);
         jButton12.setEnabled(input);
@@ -211,67 +213,71 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         jButton2.setEnabled(!input);
         jTextNome.setEditable(!input);
     }
-    
+
+    // Valida nome do usuário
     private boolean validaNome(){
         if(!jTextNome.getText().isEmpty()){
             return true;
         }
         return false;
     }
-    
+   
+    // Abre uma conexão com o servidor
     private void conectarServidor() throws Exception{
         // Conecta usando RMI
         //System.setProperty("java.security.policy", "security.policy");
         this.registry = LocateRegistry.getRegistry(HOST, PORT);
         this.remoteApi = (Api) registry.lookup(Api.class.getSimpleName());
     }
-    
+
+    // Solicita novo ID para o usuário
     private void criarIdUsuario() throws Exception{
-        // Solicita ID do usuário
         this.idJogador = remoteApi.criarIdJogador();
     }
-    
+
+    // Solicita a criação de uma nova sala
     private boolean criarSala() throws Exception {
+        // Tenta criar sala
         this.idJogo = remoteApi.criarSala(this.idJogador,jTextNome.toString());
+        // Caso sala seja criada com sucesso, seta X para as jogadas
         if(this.idJogo != -1) {
             this.marcador = marc_x;
             return true;
         }
         return false;
     }
-    
-    private boolean entrarSala() {
-        try {
-            this.idJogo = remoteApi.entrarSala(this.idJogador,jTextNome.toString());
-            if(this.idJogo!=-1) {
-                this.marcador = marc_o;
-                return true;
-            }
-        } catch (RemoteException ex) {
-            Logger.getLogger(JogoVelhaJFrame.class.getName()).log(Level.SEVERE, null, ex);
+
+    // Solicita uma sala aberta
+    private boolean entrarSala() throws Exception {
+        // Recebe ID do jogo, caso disponível
+        this.idJogo = remoteApi.entrarSala(this.idJogador,jTextNome.toString());
+        // Caso sala seja criada com sucesso, seta O para as jogadas
+        if(this.idJogo!=-1) {
+            this.marcador = marc_o;
+            return true;
         }
         return false;
     }
 
-    private void atualizarTabuleiro() {
-        // Atualizar tabuleiro
+    // Atualiza tela com jogadas realizadas
+    private void atualizarTabuleiro() throws Exception {
         JogoVelha jogo;
-        try {
-            jogo = remoteApi.getJogo(this.idJogo);
-            jButton11.setText(String.valueOf(jogo.getCelula(1, 1)));
-            jButton12.setText(String.valueOf(jogo.getCelula(1, 2)));
-            jButton13.setText(String.valueOf(jogo.getCelula(1, 3)));
-            jButton21.setText(String.valueOf(jogo.getCelula(2, 1)));
-            jButton22.setText(String.valueOf(jogo.getCelula(2, 2)));
-            jButton23.setText(String.valueOf(jogo.getCelula(2, 3)));
-            jButton31.setText(String.valueOf(jogo.getCelula(3, 1)));
-            jButton32.setText(String.valueOf(jogo.getCelula(3, 2)));
-            jButton33.setText(String.valueOf(jogo.getCelula(3, 3)));
-        } catch (RemoteException ex) {
-            Logger.getLogger(JogoVelhaJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        // Recebe dados do jogo
+        jogo = remoteApi.getJogo(this.idJogo);
+        // Atualizar tabuleiro com o jogo recebido
+        jButton11.setText(String.valueOf(jogo.getCelula(1, 1)));
+        jButton12.setText(String.valueOf(jogo.getCelula(1, 2)));
+        jButton13.setText(String.valueOf(jogo.getCelula(1, 3)));
+        jButton21.setText(String.valueOf(jogo.getCelula(2, 1)));
+        jButton22.setText(String.valueOf(jogo.getCelula(2, 2)));
+        jButton23.setText(String.valueOf(jogo.getCelula(2, 3)));
+        jButton31.setText(String.valueOf(jogo.getCelula(3, 1)));
+        jButton32.setText(String.valueOf(jogo.getCelula(3, 2)));
+        jButton33.setText(String.valueOf(jogo.getCelula(3, 3)));
     }
 
+    // Efetua Jogada ao clicar na célula (1,1)
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 1, 1, this.marcador)) {
@@ -282,6 +288,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (1,2)
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 1, 2, this.marcador)) {
@@ -292,6 +299,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (1,3)
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 1, 3, this.marcador)) {
@@ -302,6 +310,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (2,3)
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 2, 3, this.marcador)) {
@@ -312,6 +321,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton23ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (2,2)
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 2, 2, this.marcador)) {
@@ -322,6 +332,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton22ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (2,1)
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 2, 1, this.marcador)) {
@@ -332,6 +343,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton21ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (3,1)
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 3, 1, this.marcador)) {
@@ -342,6 +354,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton31ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (3,2)
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 3, 2, this.marcador)) {
@@ -352,6 +365,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton32ActionPerformed
 
+    // Efetua Jogada ao clicar na célula (3,3)
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
         try {
             if(remoteApi.efetuarJogada(this.idJogo, this.idJogador, 3, 3, this.marcador)) {
@@ -362,6 +376,7 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton33ActionPerformed
 
+    // Botão Entrar, responsável por realizar conexão com servidor e criar ou entrar em um jogo
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(this.validaNome()){
             try {
@@ -387,8 +402,13 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Atualiza tabuleiro (ação será alterada por uma Thread)
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.atualizarTabuleiro();
+        try {
+            this.atualizarTabuleiro();
+        } catch (Exception ex) {
+            Logger.getLogger(JogoVelhaJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
