@@ -275,6 +275,26 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
         jButton31.setText(String.valueOf(jogo.getCelula(3, 1)));
         jButton32.setText(String.valueOf(jogo.getCelula(3, 2)));
         jButton33.setText(String.valueOf(jogo.getCelula(3, 3)));
+    } 
+
+
+    private void atualizaTela(){
+        //instancia nova thread já implementando o método run()
+        new Thread(){
+            //sobrescreve o método run()
+            @Override
+            public void run() {
+                try {
+                    while(true){
+                        System.out.println("executando...");
+                        JogoVelhaJFrame.this.atualizarTabuleiro();
+                        Thread.sleep(1000);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(JogoVelhaJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }.start();
     }
 
     // Efetua Jogada ao clicar na célula (1,1)
@@ -393,6 +413,8 @@ public class JogoVelhaJFrame extends javax.swing.JFrame {
                 }
                 // Habilita botões
                 this.enableComponents(true);
+                // Inicia Thread para atualização da tela
+                this.atualizaTela();
             } catch (Exception ex) {
                 Logger.getLogger(JogoVelhaJFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
