@@ -3,13 +3,12 @@ package atps;
 import java.rmi.*;
 import java.rmi.server.*;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 // Implementação da Interface RMI
 public class ApiImpl extends UnicastRemoteObject implements Api {
     private static final long serialVersionUID = 1L;
     private static int idSala=0, idJogador=0;
-    ArrayList<Dados> dadosJogoList = new ArrayList();
+    ArrayList<Dados> dadosJogoList = new ArrayList<Dados>();
             
     // Construtor
     public ApiImpl() throws RemoteException {
@@ -85,6 +84,11 @@ public class ApiImpl extends UnicastRemoteObject implements Api {
         return l_dadosJogo.getJogo();
     }
     
+    //seta e retorna o status atual do jogo
+    public int getStatusJogo(int idJogo) throws RemoteException{
+    	return dadosJogoList.get(idJogo).jogo.getStatusJogo();
+    }
+        
     // Valida jogada solicitada e a efetua, caso seja possível
     @Override
     public boolean efetuarJogada(int idJogo, int idJogador, int idLin, int idCol, char valor) throws RemoteException{
