@@ -14,4 +14,7 @@ public interface Api extends Remote {
     public JogoVelha getJogo(int idJogo) throws RemoteException;
     // Valida jogada solicitada e a efetua, caso seja possível
     public boolean efetuarJogada(int idJogo, int idJogador, int idLin, int idCol, char valor) throws RemoteException;
+    //seta e retorna o status atual do jogo
+    public int getStatusJogo(int idJogo) throws RemoteException;;
+    
 }
